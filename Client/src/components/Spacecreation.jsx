@@ -12,11 +12,12 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 function Spacecreation() {
-	const [header, setHeader] = useState('Header goes here ...');
-	
+	const [header, setHeader] = useState('');
+	const [url, setUrl] = useState("")
+
 	const navigate = useNavigate();
 	return (
-		<section className='form flex flex-row align-center rounded-xl shadow-xl bg-white'>
+		<section className='bg-white form flex flex-row align-center rounded-xl shadow-xl '>
 			<div className=' py-5 mr-6 '>
 				<fieldset className='border-2 py-5 px-6 flex flex-col justify-center items-center m-4 rounded-md text-center'>
 					<legend className='text-sm bg-green-300 py-1 px-3 rounded-xl text-green-700 font-semibold text-center'>
@@ -27,7 +28,7 @@ function Spacecreation() {
 						src='https://testimonial.to/static/media/just-logo.040f4fd2.svg'
 						alt=''
 					/>
-					<h2 className='font-bold text-[2rem]'>{header}</h2>
+					<h2 className='font-bold text-[2rem]'>{header == "" ? "Header goes here...." : header}</h2>
 					<h5 className='text-[1.15rem] my-6'>Your custom message goes here</h5>
 					<span className='font-semibold text-xl tracking-wide  py-1 border-b-4 border-b-violet-600 '>
 						QUESTIONS
@@ -95,9 +96,13 @@ function Spacecreation() {
 							type='text'
 							name='Space name'
 							id='Space name'
+							onChange={(e) => {
+								setUrl(e.target.value)
+
+							}}
 						/>
 						<h5 className='text-xs text-gray-500'>
-							Public URL is: testimonial.to/your-space
+							Public URL is: testimonial.to/{url == "" ? "space - creation" : url}
 						</h5>
 					</div>
 
@@ -114,7 +119,7 @@ function Spacecreation() {
 							<img src='' alt='logo' />
 							<button
 								className='flex gap-3 px-3 py-1 justify-center items-center border-gray-400 border-2 text-gray-600 text-justify rounded-lg'
-								>Change</button>
+							>Change</button>
 							<input type="file" className='hidden' />
 						</div>
 					</div>
