@@ -13,11 +13,11 @@ import { useState } from 'react';
 
 function Spacecreation() {
 	const [header, setHeader] = useState('Header goes here ...');
-	
+
 	const navigate = useNavigate();
 	return (
-		<section className='form flex flex-row align-center rounded-xl shadow-xl bg-white'>
-			<div className=' py-5 mr-6 '>
+		<section className='lg:max-w-6xl max-w-2xl flex flex-col items-center lg:flex lg:flex-row lg:items-start rounded-xl shadow-xl bg-white'>
+			<div className=' py-5 lg:mt-20 lg:mr-6 lg:w-2/5 max-w-lg'>
 				<fieldset className='border-2 py-5 px-6 flex flex-col justify-center items-center m-4 rounded-md text-center'>
 					<legend className='text-sm bg-green-300 py-1 px-3 rounded-xl text-green-700 font-semibold text-center'>
 						Live preview-Testimonial page
@@ -49,17 +49,19 @@ function Spacecreation() {
 					</div>
 				</fieldset>
 			</div>
-			<div className=' m-6 flex flex-col items-center'>
+			<div className=' lg:mt-7 lg:ml-8 lg:mb-14 flex flex-col items-center lg:w-3/5 px-6 w-[90%]'>
 				{/* nav bar buttons */}
 				<nav className='flex py-5 border-b-2'>
 					<button
-						className='flex gap-3 px-5 py-1 justify-center items-center bg-red-600 rounded-tr-none rounded-br-none border-2 border-rose-50 '
+						className='flex gap-3 px-5 py-1 justify-center items-center bg-red-600 rounded-e-none rounded-lg border-2 border-rose-50 '
 						onClick={() => {
 							navigate('/space-creation');
 						}}
 					>
 						<img className='h-5 w-5' src={basic} alt='basic' />
-						<span className='text-black text-center py-1'> Basic </span>
+						<span className='text-black text-center py-1 md:text-base text-sm'>
+							Basic
+						</span>
 					</button>
 					<button
 						className='flex gap-3 px-5 py-1 justify-center items-center bg-red-600 rounded-none border-2 border-rose-50'
@@ -72,15 +74,21 @@ function Spacecreation() {
 							src={heart}
 							alt='thanks'
 						/>
-						<span className='text-black text-center py-1'>Thank you page</span>
+						<span className='text-black text-center py-1 md:text-base text-sm'>
+							Thank you page
+						</span>
 					</button>
-					<button className='flex gap-3 px-5 py-1 justify-center items-center bg-red-600 rounded-tl-none rounded-bl-none border-2 border-rose-50'>
+					<button className='flex gap-3 px-5 py-1 justify-center items-center bg-red-600 rounded-s-none rounded-lg border-2 border-rose-50'>
 						<img className='h-6 w-6' src={extras} alt='extras' />
-						<span className='text-black text-center py-1'>Extra setting</span>
+						<span className='text-black text-center py-1 md:text-base text-sm'>
+							Extra setting
+						</span>
 					</button>
 				</nav>
-				<h1 className='text-4xl font-bold my-5'>Create a new Space </h1>
-				<h5 className='text-lg text-center text-gray-500'>
+				<h1 className=' text-3xl sm:text-4xl font-bold my-5 text-center'>
+					Create a new Space{' '}
+				</h1>
+				<h5 className='text-md sm:text-lg space text-center text-gray-500'>
 					After the Space is created, it will generate a dedicated page for
 					collecting testimonials.
 				</h5>
@@ -112,10 +120,10 @@ function Spacecreation() {
 						{/* logo upload button/undo */}
 						<div className='mt-2 flex gap-4 mb-'>
 							<img src='' alt='logo' />
-							<button
-								className='flex gap-3 px-3 py-1 justify-center items-center border-gray-400 border-2 text-gray-600 text-justify rounded-lg'
-								>Change</button>
-							<input type="file" className='hidden' />
+							<button className='flex gap-3 px-3 py-1 justify-center items-center border-gray-400 border-2 text-gray-600 text-justify rounded-lg'>
+								Change
+							</button>
+							<input type='file' className='hidden' />
 						</div>
 					</div>
 
