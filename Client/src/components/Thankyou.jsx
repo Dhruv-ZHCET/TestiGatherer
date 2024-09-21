@@ -9,9 +9,9 @@ import { useNavigate } from 'react-router-dom';
 function Thankyou() {
 	const navigate = useNavigate();
 	return (
-		<section className='form flex flex-row align-center rounded-xl shadow-xl bg-white'>
-			<div className=' py-6 mr-6   w-2/5 flex flex-col items-start'>
-				<fieldset className='border-2 py-8 px-6 flex flex-col justify-center items-center m-4 rounded-md text-center w-full '>
+		<section className='lg:max-w-full max-w-2xl flex flex-col items-center lg:flex lg:flex-row lg:items-start rounded-xl shadow-xl bg-white'>
+			<div className=' py-5 lg:mt-20 lg:mr-6 lg:w-2/5 flex flex-col items-start max-w-lg'>
+				<fieldset className='border-2 py-8 px-6 flex flex-col justify-center items-center m-4 rounded-md text-center lg:w-full '>
 					<legend className='text-sm bg-green-300 py-1 px-3 rounded-xl text-green-700 font-semibold text-center'>
 						Live preview-Thank you page
 					</legend>
@@ -26,26 +26,24 @@ function Thankyou() {
 				</fieldset>
 
 				<button className='flex gap-3 border-2 border-gray-200 px-3 py-1 justify-between items-center mx-4'>
-					<img
-						className='w-5 h-4 mix-blend-saturation'
-						src={sidearrow}
-						alt='sidearrow'
-					/>
+					<img className='w-5 h-4' src={sidearrow} alt='sidearrow' />
 					<span>Go back</span>
 				</button>
 			</div>
 
 			{/* main panel start */}
-			<div className=' mt-7 ml-8 mb-14 flex flex-col items-center w-3/5 px-6'>
+			<div className=' lg:mt-7 lg:ml-8 lg:mb-14 flex flex-col justify-center items-center lg:w-3/5 px-6 pb-5 w-full'>
 				<nav className='flex py-5 border-b-2'>
 					<button
-						className='flex gap-3 px-5 py-1 justify-center items-center bg-red-600 rounded-tr-none rounded-br-none border-2 border-rose-50 '
+						className='flex gap-3 px-5 py-1 justify-center items-center bg-red-600 rounded-e-none rounded-lg border-2 border-rose-50'
 						onClick={() => {
 							navigate('/space-creation');
 						}}
 					>
 						<img className='h-5 w-5' src={basic} alt='basic' />
-						<span className='text-black text-center py-1'> Basic </span>
+						<span className='text-black text-center py-1 md:text-base text-sm'>
+							Basic
+						</span>
 					</button>
 					<button
 						className='flex gap-3 px-5 py-1 justify-center items-center bg-red-600 rounded-none border-2 border-rose-50'
@@ -58,11 +56,15 @@ function Thankyou() {
 							src={heart}
 							alt='thanks'
 						/>
-						<span className='text-black text-center py-1'>Thank you page</span>
+						<span className='text-black text-center py-1 md:text-base text-sm'>
+							Thank you page
+						</span>
 					</button>
-					<button className='flex gap-3 px-5 py-1 justify-center items-center bg-red-600 rounded-tl-none rounded-bl-none border-2 border-rose-50'>
+					<button className='flex gap-3 px-5 py-1 justify-center items-center bg-red-600 rounded-s-none rounded-lg border-2 border-rose-50'>
 						<img className='h-6 w-6' src={extras} alt='extras' />
-						<span className='text-black text-center py-1'>Extra setting</span>
+						<span className='text-black text-center py-1 md:text-base text-sm'>
+							Extra setting
+						</span>
 					</button>
 				</nav>
 				<h1 className='text-4xl font-bold my-5'>Customize thank you page </h1>
@@ -71,7 +73,7 @@ function Thankyou() {
 
 					{/* space logo */}
 					<div>
-						<div className='mt-16 flex gap-3'>
+						<div className='lg:mt-16 lg:flex lg:gap-3 mt-9 flex gap-2'>
 							<span>Image</span>
 							<span>
 								<input type='checkbox' />{' '}
@@ -102,7 +104,7 @@ function Thankyou() {
 					<div className='flex flex-col gap-1 mt-3'>
 						<label htmlFor='Thank you message'>Thank you message </label>
 						<textarea
-							className='text-med font-medium p-2  rounded-md border-2'
+							className='text-med font-medium p-2 rounded-md border-2'
 							name='Your custom message '
 							id='Your custom message '
 							rows={4}
@@ -113,7 +115,7 @@ function Thankyou() {
 
 					<div className='flex flex-col gap-1 mt-3 items-start'>
 						<span>Allow to share on social media</span>
-						<button className='flex gap-3 px-4 pt-1 pb-2 justify-center items-center  border-gray-400 border-1 text-gray-600 h-8 text-center'>
+						<button className='flex gap-3 px-4 pt-1 pb-2 justify-center items-center border-2 text-gray-600 h-8 text-center rounded-md'>
 							Click
 						</button>
 					</div>
