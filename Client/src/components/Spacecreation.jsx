@@ -13,6 +13,7 @@ import { useState } from 'react';
 
 function Spacecreation() {
 	const [header, setHeader] = useState('Header goes here ...');
+	const [url, setUrl] = useState('');
 
 	const navigate = useNavigate();
 	return (
@@ -103,9 +104,12 @@ function Spacecreation() {
 							type='text'
 							name='Space name'
 							id='Space name'
+							onChange={(e) => {
+								setUrl(e.target.value)
+							}}
 						/>
 						<h5 className='text-xs text-gray-500'>
-							Public URL is: testimonial.to/your-space
+							Public URL is: testimonial.to/{url == "" ? "space - creation" : url}
 						</h5>
 					</div>
 
