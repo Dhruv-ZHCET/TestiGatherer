@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 const Navbar = () => {
     const navigate = useNavigate()
     return (
-        <div className='flex justify-between items-center h-16 text-white bg-slate-950 px-4 sm:px-6 lg:px-8'>
+        <div className='mb-6 flex justify-between items-center h-16 text-white bg-slate-950 px-4 sm:px-6 lg:px-8'>
             <div className='text-xl font-semibold'>
                 TestiGatherer
             </div>

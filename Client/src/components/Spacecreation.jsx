@@ -13,6 +13,7 @@ import { useState } from 'react';
 
 function Spacecreation() {
 	const [header, setHeader] = useState('Header goes here ...');
+	const [url, setUrl] = useState("")
 
 	const navigate = useNavigate();
 	return (

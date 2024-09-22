@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import axios from "axios"
 import { useNavigate } from 'react-router-dom'
 import toast, { Toaster } from "react-hot-toast"
+import Navbar from './Navbar'
 
 
 
@@ -52,7 +53,8 @@ const Signin = () => {
 
     return (
 
-        <div className='flex-col w-full max-w-md mx-auto'>
+        <div className=' flex-col w-full max-w-md mx-auto min-h-screen'>
+
             <div>
                 <h1 className="mb-16 text-white md:text-4xl text-3xl font-bold text-center">
                     Welcome back 👋                </h1>

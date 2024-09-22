@@ -1,10 +1,13 @@
 import React from 'react'
+import Navbar from './Navbar'
 
 const Landingpage = () => {
     return (
         <>
 
-            <div className='  flex-grow flex justify-center items-center p-4'>
+
+
+            <div className='flex-grow flex justify-center items-center p-4 '>
                 <div className='  w-full max-w-4xl h-[calc(100vh-4rem)]'>
                     <h1 className="text-white md:text-6xl text-5xl font-bold text-center">
                         Get Testimonials from your <br /> customers with ease
