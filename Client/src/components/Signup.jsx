@@ -26,7 +26,7 @@ const Signup = () => {
                 localStorage.setItem('token', UserResponse.data.token);
                 toast.success(UserResponse.data.message)
                 setTimeout(() => {
-                    navigate('/some-path');
+                    navigate('/dashboard');
                 }, 1000);
                 // Redirect to a desired route after signup
             }

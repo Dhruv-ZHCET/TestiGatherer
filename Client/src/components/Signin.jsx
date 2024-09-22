@@ -28,7 +28,7 @@ const Signin = () => {
             if (Userresponse.data.message) {
                 toast.success(Userresponse.data.message)
                 setTimeout(() => {
-                    navigate('/some-path');
+                    navigate('/dashboard');
                 }, 1000);
             }
             console.log(Userresponse.data)
