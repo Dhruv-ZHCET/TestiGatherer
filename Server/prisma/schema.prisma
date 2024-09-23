@@ -23,13 +23,21 @@ model User{
 
 model Space {
   id            String        @id @default(uuid())
-  name          String
+  space_name          String
   logo          String?
-  header        String?
+  header        String
   customMessage String?
   userId        String
   user          User          @relation(fields: [userId], references: [id])
   testimonials  Testimonial[]
+  questions      question[]
+}
+
+model question{
+  id       String   @id @default(uuid())
+  spaceId  String
+  space    Space    @relation(fields: [spaceId], references: [id])
+  question String
 }
 
 model Testimonial {
