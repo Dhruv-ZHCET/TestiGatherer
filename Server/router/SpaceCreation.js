@@ -10,21 +10,39 @@ const prisma = new PrismaClient();
 const SpaceCreationRouter = express.Router();
 
 const SpaceSchema = z.object({
-  space_name: z.string(),
-  logo: z.string().optional(),
+  spacename: z.string(),
+  imageUrl: z.string().optional(),
   header: z.string(),
-  customMessage: z.string().optional(),
+  customMessage: z.string(),
   questions: z.array(z.string()),
+  hideImage: z.boolean(),
+  redirect_url: z.string(),
+  imagePreview: z.string().optional(),
+  thankyouTitle: z.string(),
+  thankyouMessage: z.string(),
 });
 SpaceCreationRouter.post("/", Authmiddlware, async (req, res) => {
   try {
-    const { space_name, logo, header, customMessage, questions } = req.body;
+    console.log("helo");
+    const {
+      spacename,
+      imageUrl,
+      header,
+      customMessage,
+      questions,
+      hideImage,
+      redirect_url,
+      imagePreview,
+      thankyouTitle,
+      thankyouMessage,
+    } = req.body;
 
-    console.log(questions);
+    console.log(req.body);
 
     const validationResult = SpaceSchema.safeParse(req.body);
     console.log(validationResult);
     if (!validationResult.success) {
+      console.log("hi");
       return res.status(400).json({ error: validationResult.error });
     }
 
@@ -38,10 +56,15 @@ SpaceCreationRouter.post("/", Authmiddlware, async (req, res) => {
       const SpaceResponse = await prisma.space.create({
         data: {
           userId: FindUserdetail.id,
-          space_name,
-          logo,
-          header,
-          customMessage,
+          space_name: spacename,
+          logo: imageUrl,
+          header: header,
+          customMessage: customMessage,
+          hide_gif: hideImage,
+          redirectPageUrl: redirect_url,
+          thankyou_img_url: imagePreview,
+          thankyou_title: thankyouTitle,
+          thankyou_msg: thankyouMessage,
         },
       });
 

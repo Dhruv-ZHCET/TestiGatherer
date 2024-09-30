@@ -23,14 +23,20 @@ model User{
 
 model Space {
   id            String        @id @default(uuid())
-  space_name          String
+  space_name          String  @unique
   logo          String?
   header        String
   customMessage String?
   userId        String
-  user          User          @relation(fields: [userId], references: [id])
+  hide_gif    Boolean  @default(false)
+  thankyou_img_url  String
+  thankyou_msg  String
+  thankyou_title String
+  redirectPageUrl  String
+   user          User          @relation(fields: [userId], references: [id])
   testimonials  Testimonial[]
   questions      question[]
+ 
 }
 
 model question{

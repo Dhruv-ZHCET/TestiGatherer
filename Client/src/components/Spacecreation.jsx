@@ -11,6 +11,7 @@ import addbutton from '../assets/addbutton.jpg';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios"
 import toast, { Toaster } from "react-hot-toast"
+import { useThankYouContext } from '../context/context';
 
 
 const handleFileUpload = async (e, setImageUrl) => {
@@ -36,16 +37,25 @@ const handleFileUpload = async (e, setImageUrl) => {
 	}
 };
 
+
+
 function SpaceCreation() {
-	const [header, setHeader] = useState('Header goes here ...');
-	const [imageUrl, setImageUrl] = useState('');
-	const [spacename, setspacename] = useState('');
-	const [customMessage, setCustomMessage] = useState('Your custom message goes here');
-	const [questions, setQuestions] = useState([
-		'Who are you / what are you working on?',
-		'How has [our product / service] helped you?',
-		'What is the best thing about [our product / service]?',
-	]);
+
+	const { imagePreview, setImagePreview, thankyouTitle, setThankyouTitle, thankyouMessage, setThankyouMessage, hideImage, setHideImage, redirect_url, setredirect_url,
+		header, setHeader, imageUrl, setImageUrl, spacename, setspacename, customMessage, setCustomMessage, questions, setQuestions } = useThankYouContext()
+
+	// const [header, setHeader] = useState('Header goes here ...');
+	// const [imageUrl, setImageUrl] = useState('');
+	// const [spacename, setspacename] = useState('');
+	// const [customMessage, setCustomMessage] = useState('Your custom message goes here');
+	// const [questions, setQuestions] = useState([
+	// 	'Who are you / what are you working on?',
+	// 	'How has [our product / service] helped you?',
+	// 	'What is the best thing about [our product / service]?',
+	// ]);
+
+
+
 	const [headerError, setHeaderError] = useState(false);
 
 	const navigate = useNavigate();
@@ -61,7 +71,18 @@ function SpaceCreation() {
 				logo: imageUrl,
 				header: header,
 				customMessage: customMessage,
-				questions: questions
+				questions: questions,
+				/* hide_gif    Boolean @default(false)
+			  thankyou_img_url  String
+			  thankyou_msg  String
+				thankyou_title String
+
+			  redirectPageUrl  String */
+				hide_gif: hideImage,
+				thankyou_img_url: imagePreview,
+				thankyou_msg: thankyouMessage,
+				redirectPageUrl: redirect_url,
+				thankyou_title: thankyouTitle
 			},
 			{
 				headers: {
@@ -69,6 +90,12 @@ function SpaceCreation() {
 				},
 			}
 		);
+
+		/* hide_gif    Boolean @default(false)
+  thankyou_img_url  String
+  thankyou_msg  String
+  redirectPageUrl  String */
+
 
 		if (SpaceCreationResponse.data.message) {
 			toast.success(SpaceCreationResponse.data.message)

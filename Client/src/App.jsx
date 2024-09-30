@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import Spacecreation from './components/Spacecreation';
 import Thankyou from './components/Thankyou';
 import Dashboard from './components/Dashboard';
+import MergedSpaceCreation from './components/MergedSpaceCreation';
 
 function App() {
 	return (
@@ -19,8 +20,7 @@ function App() {
 						<Route path='/' element={<Landingpage />} />
 						<Route path='/signup' element={<Signup />} />
 						<Route path='/signin' element={<Signin />} />
-						<Route path='/space-creation' element={<Spacecreation />} />
-						<Route path='/thank-you' element={<Thankyou />} />
+						<Route path='/space-creation' element={<MergedSpaceCreation />} />
 						<Route path='/dashboard' element={<Dashboard />} />
 
 					</Routes>
