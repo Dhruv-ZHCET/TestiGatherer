@@ -9,6 +9,7 @@ import Spacecreation from './components/Spacecreation';
 import Thankyou from './components/Thankyou';
 import Dashboard from './components/Dashboard';
 import MergedSpaceCreation from './components/MergedSpaceCreation';
+import Space from './components/Space';
 
 function App() {
 	return (
@@ -22,9 +23,8 @@ function App() {
 						<Route path='/signin' element={<Signin />} />
 						<Route path='/space-creation' element={<MergedSpaceCreation />} />
 						<Route path='/dashboard' element={<Dashboard />} />
-
+						<Route path='/space' element={<Space />} />
 					</Routes>
-
 				</div>
 			</div>
 		</BrowserRouter>
