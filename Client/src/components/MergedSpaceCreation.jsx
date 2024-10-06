@@ -38,6 +38,7 @@ const handleFileUpload = async (e, setImageUrl) => {
         console.error('Error uploading image:', error);
     }
 };
+
 function MergedSpaceCreation() {
     const navigate = useNavigate();
     const {
@@ -55,6 +56,7 @@ function MergedSpaceCreation() {
 
     const [headerError, setHeaderError] = useState(false);
     const [activeTab, setActiveTab] = useState('basic');
+    const [isLoading, setIsLoading] = useState(false);
 
     // Use local state to store form data
     const [basicFormData, setBasicFormData] = useState({
@@ -118,6 +120,7 @@ function MergedSpaceCreation() {
 
     const handlespacecreation = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         const token = localStorage.getItem('token');
 
         try {
@@ -141,6 +144,11 @@ function MergedSpaceCreation() {
         } catch (error) {
             toast.error("Error creating space");
             console.error("Error creating space:", error);
+        } finally {
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 3000);
+            navigate("/dashboard")
         }
     };
 
@@ -341,7 +349,7 @@ function MergedSpaceCreation() {
                                         Header title cannot exceed 35 characters.
                                     </h5>
                                 )}
-                                <h5 className='text-xs text-gray-500'>Recommended: 35 characters</h5>
+                                <h5 className='text-xs text-gray-500'>Recommended: 35 characters</ h5>
                             </div><div className='flex flex-col gap-1 mt-3'>
                                 <label htmlFor='Your custom message *'>Your custom message</label>
                                 <textarea
@@ -450,10 +458,19 @@ function MergedSpaceCreation() {
 
                     <button
                         type='submit'
-                        className='bg-[#5d5dff] p-2 my-3 text-lg text-white rounded-none'
+                        className={`bg-[#5d5dff] p-2 my-3 text-lg text-white rounded-none ${isLoading ? 'cursor-not-allowed' : ''}`}
                         onClick={handlespacecreation}
+                        disabled={isLoading}
                     >
-                        Create new Space
+                        {isLoading ? (
+                            <div className="flex items-center justify-center">
+                                <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-white" role="status">
+                                    <span className="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        ) : (
+                            'Create new Space'
+                        )}
                     </button>
                 </form>
             </div>

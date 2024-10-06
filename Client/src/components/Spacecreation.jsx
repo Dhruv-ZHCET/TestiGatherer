@@ -44,15 +44,6 @@ function SpaceCreation() {
 	const { imagePreview, setImagePreview, thankyouTitle, setThankyouTitle, thankyouMessage, setThankyouMessage, hideImage, setHideImage, redirect_url, setredirect_url,
 		header, setHeader, imageUrl, setImageUrl, spacename, setspacename, customMessage, setCustomMessage, questions, setQuestions } = useThankYouContext()
 
-	// const [header, setHeader] = useState('Header goes here ...');
-	// const [imageUrl, setImageUrl] = useState('');
-	// const [spacename, setspacename] = useState('');
-	// const [customMessage, setCustomMessage] = useState('Your custom message goes here');
-	// const [questions, setQuestions] = useState([
-	// 	'Who are you / what are you working on?',
-	// 	'How has [our product / service] helped you?',
-	// 	'What is the best thing about [our product / service]?',
-	// ]);
 
 
 

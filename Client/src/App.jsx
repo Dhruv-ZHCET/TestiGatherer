@@ -23,7 +23,7 @@ function App() {
 						<Route path='/signin' element={<Signin />} />
 						<Route path='/space-creation' element={<MergedSpaceCreation />} />
 						<Route path='/dashboard' element={<Dashboard />} />
-						<Route path='/space' element={<Space />} />
+						<Route path='/space/:spacename' element={<Space />} />
 					</Routes>
 				</div>
 			</div>

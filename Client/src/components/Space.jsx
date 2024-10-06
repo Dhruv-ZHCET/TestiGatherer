@@ -15,9 +15,51 @@ import profile from '../assets/profile.png';
 import DROP from '../assets/DROP.jpg';
 import redheart from '../assets/redheart.png';
 import record from '../assets/record.png';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom'; // Import useParams hook
+import axios from "axios"
 
 function Space() {
+
+	const { spacename } = useParams(); // Extract the 'id' from the route
+
+	const [spaceinfo, setspaceinfo] = useState({
+		spaceinfo: {
+			space_name: "hbfhe",
+
+		}
+	})
+	const [firstname, setfirstname] = useState('')
+	const [email, setemail] = useState('')
+
+
+	useEffect(() => {
+		const fetchSpaceInfo = async () => {
+
+			try {
+				const response = await axios.get('http://localhost:3001/api/v1/spaceinfo', {
+					params: {
+						spacename: spacename, // Pass 'spacename' as query parameter
+					},
+					headers: {
+						Authorization: "Bearer " + localStorage.getItem("token")
+					}
+				});
+
+				const spaceinfo = response.data;
+				setspaceinfo(spaceinfo)
+				console.log(spaceinfo); // Log the space info
+			} catch (error) {
+				console.error('Error fetching space info:', error);
+			}
+		};
+
+		fetchSpaceInfo();
+	}, []); // Add spacename as dependency to trigger when it changes
+
+
+
+
 	const [dropdown, setDropdown] = useState(false);
 	const [love, setLove] = useState(false)
 	const toggleDropdown = () => {
@@ -28,15 +70,17 @@ function Space() {
 		setLove(!love);
 	};
 
+	console.log(spaceinfo)
 	return (
 		<div className='w-full flex-column justify-center text-white font-bold bg-[#151719]'>
 			<div className='flex justify-between py-8 items-center  border-gray-500 border-2 border-x-0 border-t-0'>
 				<div className='flex gap-4 ml-4'>
-					<img className='w-24 rounded-md' src={sample} alt='' />
+					<img className='w-24 rounded-md' src={(spaceinfo.spaceinfo.logo) == "" ? "https://via.placeholder.com/150" : spaceinfo.spaceinfo.logo} alt='' />
 					<div>
-						<h1 className='text-white font-bold text-4xl'>kush</h1>
+						<h1 className='text-white font-bold text-4xl'>{spaceinfo.spaceinfo.space_name}</h1>
+
 						<p className='text-gray-400 font-semibold'>
-							Space public URL : <u>https://testimonial.to/kush</u>
+							Space public URL : <u>https://testimonial.to/{spaceinfo.spaceinfo.space_name}</u>
 						</p>
 					</div>
 				</div>

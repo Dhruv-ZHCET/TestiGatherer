@@ -26,7 +26,11 @@ const Signin = () => {
             )
 
             if (Userresponse.data.message) {
+
+                localStorage.setItem('token', Userresponse.data.token);
+
                 toast.success(Userresponse.data.message)
+
                 setTimeout(() => {
                     navigate('/dashboard');
                 }, 1000);

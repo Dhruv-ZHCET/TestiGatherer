@@ -81,9 +81,14 @@ UserRouter.post("/signin", async (req, res) => {
     });
     console.log(FindUserdetail);
     if (FindUserdetail) {
+      const token = jwt.sign(
+        { email: FindUserdetail.email, firstname: FindUserdetail.firstName },
+        JWT_SECRET
+      );
       res.status(200).json({
         message: "User logged in successfully",
         FindUserdetail,
+        token,
       });
     } else {
       res.status(500).json({ error: "User not logged in successfully" });

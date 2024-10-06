@@ -23,8 +23,9 @@ const Signup = () => {
             );
 
             if (UserResponse.data.message) {
-                localStorage.setItem('token', UserResponse.data.token);
                 toast.success(UserResponse.data.message)
+                localStorage.setItem('token', UserResponse.data.token);
+
                 setTimeout(() => {
                     navigate('/dashboard');
                 }, 1000);
