@@ -17,6 +17,9 @@ SpaceinfofetchRouter.get("/", Authmiddlware, async (req, res) => {
       where: {
         space_name: spacename, // Assuming `req.email` is set by Authmiddlware
       },
+      include: {
+        questions: true,
+      },
     });
     if (Findspaceinfo) {
       console.log(Findspaceinfo);

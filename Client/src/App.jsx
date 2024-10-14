@@ -10,6 +10,7 @@ import Thankyou from './components/Thankyou';
 import Dashboard from './components/Dashboard';
 import MergedSpaceCreation from './components/MergedSpaceCreation';
 import Space from './components/Space';
+import TestimonialsCollection from './components/TestimonialsCollection';
 
 function App() {
 	return (
@@ -24,6 +25,8 @@ function App() {
 						<Route path='/space-creation' element={<MergedSpaceCreation />} />
 						<Route path='/dashboard' element={<Dashboard />} />
 						<Route path='/space/:spacename' element={<Space />} />
+						<Route path='/testimonial.to/:spacename' element={<TestimonialsCollection />} />
+
 					</Routes>
 				</div>
 			</div>

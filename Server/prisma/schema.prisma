@@ -48,9 +48,15 @@ model question{
 
 model Testimonial {
   id           String  @id @default(uuid())
-  username     String
-  textContent  String?
-  videoContent String?
+  username     String  
+  email    String 
+  isTextContent  Boolean
+  Content  String
+  imageURL String
+  UserImageURL String
+  Rating       Int
   space        Space   @relation(fields: [spaceId], references: [id])
   spaceId      String
+    submittedAt  DateTime @default(now())
+
 }
