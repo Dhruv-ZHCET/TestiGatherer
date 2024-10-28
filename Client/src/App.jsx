@@ -11,12 +11,13 @@ import Dashboard from './components/Dashboard';
 import MergedSpaceCreation from './components/MergedSpaceCreation';
 import Space from './components/Space';
 import TestimonialsCollection from './components/TestimonialsCollection';
+import TestimonialWall from './components/TestimonialWall';
 
 function App() {
 	return (
 		<BrowserRouter>
 			<div className='bg-slate-950 min-h-100vh w-full flex flex-col'>
-				<Navbar />
+				{/* <Navbar /> */}
 				<div className='flex-grow flex justify-center items-center '>
 					<Routes>
 						<Route path='/' element={<Landingpage />} />
@@ -26,6 +27,7 @@ function App() {
 						<Route path='/dashboard' element={<Dashboard />} />
 						<Route path='/space/:spacename' element={<Space />} />
 						<Route path='/testimonial.to/:spacename' element={<TestimonialsCollection />} />
+						<Route path='/walloflove/:spacename' element={<TestimonialWall />} />
 
 					</Routes>
 				</div>

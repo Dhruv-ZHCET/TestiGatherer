@@ -15,7 +15,7 @@ import DROP from '../assets/DROP.jpg';
 import redheart from '../assets/redheart.png';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from "axios";
 import WallOfLoveModal from './WallOfLoveModal';
 
@@ -31,6 +31,7 @@ function Space() {
     const [testimonials, setTestimonials] = useState([]);
     const [dropdown, setDropdown] = useState(false);
     const [love, setLove] = useState(false);
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchSpaceInfo = async () => {
@@ -134,8 +135,8 @@ function Space() {
                     <ul className='flex flex-col gap-1 mt-8'>
                         <p className='pb-2 ml-2 text-[#c5d2dc]'>EMBEDS & METRICS</p>
                         <li>
-                            <button 
-                                onClick={() => setIsWallOfLoveModalOpen(true)} 
+                            <button
+                                onClick={() => setIsWallOfLoveModalOpen(true)}
                                 className='flex gap-2 items-center hover:bg-[#33363a] focus:bg-[#33363a] w-full py-2 px-3 rounded-md'
                             >
                                 <img className='w-4 h-4' src={walloflove} alt='' />
@@ -162,7 +163,9 @@ function Space() {
                         <li>
                             <button className='flex gap-2 items-center hover:bg-[#33363a] focus:bg-[#33363a] w-full py-2 px-3 rounded-md'>
                                 <img className='w-6 h-6' src={link} alt='' />
-                                <span className='font-semibold'>Wall of Love page</span>
+                                <span onClick={() => {
+                                    navigate(`/walloflove/${spacename}`)
+                                }} className='font-semibold'>Wall of Love page</span>
                             </button>
                         </li>
                     </ul>
@@ -282,7 +285,7 @@ function Space() {
             </div>
 
             {/* Wall of Love Modal */}
-            <WallOfLoveModal 
+            <WallOfLoveModal
                 isOpen={isWallOfLoveModalOpen}
                 onClose={() => setIsWallOfLoveModalOpen(false)}
             />
