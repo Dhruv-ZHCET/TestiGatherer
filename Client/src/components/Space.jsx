@@ -164,7 +164,7 @@ function Space() {
                             <button className='flex gap-2 items-center hover:bg-[#33363a] focus:bg-[#33363a] w-full py-2 px-3 rounded-md'>
                                 <img className='w-6 h-6' src={link} alt='' />
                                 <span onClick={() => {
-                                    navigate(`/walloflove/${spacename}`)
+                                    navigate(`/testimonialwall/${spacename}`)
                                 }} className='font-semibold'>Wall of Love page</span>
                             </button>
                         </li>

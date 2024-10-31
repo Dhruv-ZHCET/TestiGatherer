@@ -12,6 +12,8 @@ import MergedSpaceCreation from './components/MergedSpaceCreation';
 import Space from './components/Space';
 import TestimonialsCollection from './components/TestimonialsCollection';
 import TestimonialWall from './components/TestimonialWall';
+import WallOfLove_Masonary from './components/WallOfLove_Masonary';
+import WallOfLove_MasonaryAnimated from './components/WallOfLove_MasonaryaAnimated';
 
 function App() {
 	return (
@@ -27,7 +29,9 @@ function App() {
 						<Route path='/dashboard' element={<Dashboard />} />
 						<Route path='/space/:spacename' element={<Space />} />
 						<Route path='/testimonial.to/:spacename' element={<TestimonialsCollection />} />
-						<Route path='/walloflove/:spacename' element={<TestimonialWall />} />
+						<Route path='/testimonialwall/:spacename' element={<TestimonialWall />} />
+						<Route path='/walloflove/masonary/:spacename' element={<WallOfLove_Masonary />} />
+						<Route path='/walloflove/masonaryanimated/:spacename' element={<WallOfLove_MasonaryAnimated />} />
 
 					</Routes>
 				</div>
