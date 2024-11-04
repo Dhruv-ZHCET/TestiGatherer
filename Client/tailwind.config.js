@@ -10,6 +10,21 @@ export default {
         "masonry-4": "repeat(4, minmax(0, 1fr))",
         "masonry-5": "repeat(5, minmax(0, 1fr))",
       },
+      animation: {
+        fadeIn: "fadeIn 0.5s ease-out forwards",
+        "heart-float": "heart-float 5s ease-in-out infinite",
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
+        },
+        "heart-float": {
+          "0%": { transform: "translateY(0) scale(1)", opacity: "1" },
+          "50%": { transform: "translateY(-30px) scale(1.2)", opacity: "0.8" },
+          "100%": { transform: "translateY(0) scale(1)", opacity: "1" },
+        },
+      },
     },
   },
   variants: {},

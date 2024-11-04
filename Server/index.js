@@ -6,6 +6,7 @@ import SpacefetchingRouter from "./router/Spacefetching.js";
 import SpaceinfofetchRouter from "./router/FetchspaceInfo.js";
 import SendtestimonialsRouter from "./router/SendTestimonials.js";
 import FetchTestimonials from "./router/FetchTestimonials.js";
+import LikedTestimonialsRouter from "./router/Likedtestimonials.js";
 const app = express();
 
 app.use(cors());
@@ -16,6 +17,7 @@ app.use("/api/v1/space-fetch", SpacefetchingRouter);
 app.use("/api/v1/spaceinfo", SpaceinfofetchRouter);
 app.use("/api/v1/sendtestimonials", SendtestimonialsRouter);
 app.use("/api/v1/fetchtestimonials", FetchTestimonials);
+app.use("/api/v1", LikedTestimonialsRouter);
 
 // req and res (request and response)
 app.get("/", (req, res) => {

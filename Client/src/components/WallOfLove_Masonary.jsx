@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Star } from 'lucide-react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 
-const TestimonialCard = React.memo(({ testimonial }) => {
+const FloatingHeart = () => (
+    <div
+        className="absolute animate-heart-float"
+        style={{
+            left: `${Math.random() * 100}%`,
+            bottom: '0',
+        }}
+    >
+        <div className="text-red-500 text-2xl">❤️</div>
+    </div>
+);
+
+const TestimonialCard = React.memo(({ testimonial, showHearts = false }) => {
     return (
-        <div className="break-inside-avoid mb-4">
+        <div className="break-inside-avoid mb-4 relative overflow-hidden">
             <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 h-fit">
                 <div className="p-4">
                     <div className="flex items-center gap-3 mb-4">
@@ -47,6 +59,11 @@ const TestimonialCard = React.memo(({ testimonial }) => {
                     </div>
                 </div>
             </div>
+
+            {/* Floating Hearts */}
+            {showHearts && (
+                <FloatingHeart />
+            )}
         </div>
     );
 });
@@ -57,8 +74,9 @@ const WallOfLove_Masonary = () => {
     const [testimonials, setTestimonials] = useState([]);
     const [sortOrder, setSortOrder] = useState('newest');
     const { spacename } = useParams();
+    const [searchParams] = useSearchParams();
+    const showHearts = searchParams.get('heart') === 'true';
 
-    // Load testimonials with saved order
     useEffect(() => {
         const fetchSpaceInfo = async () => {
             try {
@@ -93,7 +111,6 @@ const WallOfLove_Masonary = () => {
         fetchSpaceInfo();
     }, [spacename]);
 
-    // Save order whenever testimonials change
     useEffect(() => {
         if (testimonials.length > 0) {
             const order = testimonials.map((testimonial, index) => [testimonial.id, index]);
@@ -104,14 +121,12 @@ const WallOfLove_Masonary = () => {
 
     return (
         <div className="min-h-screen w-screen bg-gray-100 p-4">
-            {/* Sort Controls */}
-
-            {/* Testimonials Masonry Grid */}
             <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
                 {testimonials.map((testimonial, index) => (
                     <TestimonialCard
                         key={testimonial.id || index}
                         testimonial={testimonial}
+                        showHearts={showHearts}
                     />
                 ))}
             </div>

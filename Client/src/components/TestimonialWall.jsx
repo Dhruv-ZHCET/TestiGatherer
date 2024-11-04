@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Star, Settings, Camera } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';

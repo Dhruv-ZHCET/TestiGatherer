@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Star } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
-
 const TestimonialCard = React.memo(({ testimonial }) => {
     return (
-        <div className="break-inside-avoid mb-4 bg-white p-4 rounded-lg shadow-md">
+        <div
+            className="break-inside-avoid mb-4 bg-white p-4 rounded-lg shadow-md opacity-0 animate-fadeIn"
+        >
             <div className="flex items-center gap-3 mb-4">
                 <img
                     className="w-10 h-10 rounded-full object-cover border-2 border-gray-100"
@@ -52,13 +53,12 @@ const TestimonialCard = React.memo(({ testimonial }) => {
 
 TestimonialCard.displayName = 'TestimonialCard';
 
-const WallOfLove_MasonaryAnimated = () => {
+const WallOfLove_MasonryAnimated = () => {
     const [testimonials, setTestimonials] = useState([]);
     const [isScrolling, setIsScrolling] = useState(true);
     const [resetKey, setResetKey] = useState(0);
     const { spacename } = useParams();
     const containerRef = useRef(null);
-    const contentRef = useRef(null);
 
     useEffect(() => {
         const fetchSpaceInfo = async () => {
@@ -82,22 +82,19 @@ const WallOfLove_MasonaryAnimated = () => {
         let timeoutId;
 
         const handleScroll = () => {
-            if (!containerRef.current || !contentRef.current) return;
+            if (!containerRef.current) return;
 
             const container = containerRef.current;
-            const content = contentRef.current;
             const scrollBottom = container.scrollTop + container.clientHeight;
 
-            // Check if we've reached the bottom
-            if (Math.ceil(scrollBottom) >= content.scrollHeight) {
+            if (Math.ceil(scrollBottom) >= container.scrollHeight) {
                 setIsScrolling(false);
 
-                // Pause at the bottom, then reset to top and restart scrolling
                 timeoutId = setTimeout(() => {
                     container.scrollTop = 0;
                     setResetKey(prev => prev + 1);
                     setIsScrolling(true);
-                }, 2000); // Pause for 2 seconds before restarting
+                }, 2000);
             }
         };
 
@@ -118,7 +115,7 @@ const WallOfLove_MasonaryAnimated = () => {
         const scrollStep = () => {
             if (!containerRef.current || !isScrolling) return;
 
-            containerRef.current.scrollTop += 1.5; // Adjust scroll speed here (1.5 pixels per frame)
+            containerRef.current.scrollTop += 1.5;
             animationId = requestAnimationFrame(scrollStep);
         };
 
@@ -136,23 +133,20 @@ const WallOfLove_MasonaryAnimated = () => {
     return (
         <div
             ref={containerRef}
-            className="fixed inset-0 bg-gray-100 overflow-hidden"
+            className="fixed inset-0 bg-gray-100 overflow-hidden p-4"
         >
             <div
-                ref={contentRef}
-                className="p-4"
+                className="masonry-container columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4"
             >
-                <div className="masonry sm:masonry-sm md:masonry-md lg:masonry-lg xl:masonry-xl">
-                    {testimonials.map((testimonial, index) => (
-                        <TestimonialCard
-                            key={`${testimonial.id || index}-${resetKey}`}
-                            testimonial={testimonial}
-                        />
-                    ))}
-                </div>
+                {testimonials.map((testimonial, index) => (
+                    <TestimonialCard
+                        key={`${testimonial.id || index}-${resetKey}`}
+                        testimonial={testimonial}
+                    />
+                ))}
             </div>
         </div>
     );
 };
 
-export default WallOfLove_MasonaryAnimated;
+export default WallOfLove_MasonryAnimated;

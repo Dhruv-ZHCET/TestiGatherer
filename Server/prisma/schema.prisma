@@ -57,6 +57,7 @@ model Testimonial {
   Rating       Int
   space        Space   @relation(fields: [spaceId], references: [id])
   spaceId      String
-    submittedAt  DateTime @default(now())
+  submittedAt  DateTime @default(now())
+  liked     Boolean @default(false)
 
 }
