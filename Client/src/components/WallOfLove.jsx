@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { X, ChevronLeft, ChevronDown, Copy } from 'lucide-react';
 import { useParams } from 'react-router-dom';
+import masonry from '../assets/masonry.gif';
+import fixed from '../assets/fixed.png';
+import animated from '../assets/animated.gif';
 
 const WallOfLoveCustomization = ({ selectedLayout, onClose, showContent }) => {
 	const [showBasic, setShowBasic] = useState(true);
@@ -25,13 +28,13 @@ const WallOfLoveCustomization = ({ selectedLayout, onClose, showContent }) => {
 	};
 
 	const getEmbedCode = (layout) => {
-		const baseUrl = "http://localhost:5173";
+		const baseUrl = 'http://localhost:5173';
 		const theme = settings.darkTheme ? 'dark' : 'light';
 
 		const layoutUrls = {
-			'Masonry': `/masonary/${spacename}`,
-			'Animated': `/masonaryanimated/${spacename}`,
-			'Slider': `/masonarycarousel/${spacename}`
+			Masonry: `/masonary/${spacename}`,
+			Animated: `/masonaryanimated/${spacename}`,
+			Slider: `/masonarycarousel/${spacename}`,
 		};
 
 		const url = `${baseUrl}${layoutUrls[layout]}`;
@@ -45,11 +48,11 @@ const WallOfLoveCustomization = ({ selectedLayout, onClose, showContent }) => {
 	};
 
 	const getPreviewUrl = () => {
-		const baseUrl = "http://localhost:5173/walloflove";
+		const baseUrl = 'http://localhost:5173/walloflove';
 		const layoutPaths = {
-			'Masonry': 'masonary',
-			'Animated': 'masonaryanimated',
-			'Slider': 'masonarycarousel'
+			Masonry: 'masonary',
+			Animated: 'masonaryanimated',
+			Slider: 'masonarycarousel',
 		};
 		return `${baseUrl}/${layoutPaths[selectedLayout]}/${spacename}`;
 	};
@@ -95,11 +98,11 @@ const WallOfLoveCustomization = ({ selectedLayout, onClose, showContent }) => {
 						<iframe
 							src={getPreviewUrl()}
 							style={{ width: '100%', height: '100%', border: 'none' }}
-							frameBorder="0"
-							scrolling="yes"
-							title="Wall of Love Preview"
-							loading="lazy"
-							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+							frameBorder='0'
+							scrolling='yes'
+							title='Wall of Love Preview'
+							loading='lazy'
+							allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
 						/>
 					</div>
 
@@ -115,15 +118,17 @@ const WallOfLoveCustomization = ({ selectedLayout, onClose, showContent }) => {
 				{/* Toggle Buttons */}
 				<div className='flex gap-2 mb-6'>
 					<button
-						className={`px-4 py-2 rounded-md border-2 border-[#a8b5bd] transition ${showBasic ? 'bg-[#ebf1f5]' : 'hover:bg-gray-50'
-							}`}
+						className={`px-4 py-2 rounded-md border-2 border-[#a8b5bd] transition ${
+							showBasic ? 'bg-[#ebf1f5]' : 'hover:bg-gray-50'
+						}`}
 						onClick={() => setShowBasic(true)}
 					>
 						Basic
 					</button>
 					<button
-						className={`px-4 py-2 rounded-md border-2 border-[#a8b5bd] transition ${!showBasic ? 'bg-[#ebf1f5]' : 'hover:bg-gray-50'
-							}`}
+						className={`px-4 py-2 rounded-md border-2 border-[#a8b5bd] transition ${
+							!showBasic ? 'bg-[#ebf1f5]' : 'hover:bg-gray-50'
+						}`}
 						onClick={() => setShowBasic(false)}
 					>
 						More customization
@@ -253,21 +258,33 @@ const WallOfLove = ({ isOpen, onClose }) => {
 							className='h-64 rounded-lg border-2 border-[#a8b5bd] text-black text-center flex flex-col justify-center py-2 hover:shadow-xl cursor-pointer'
 							onClick={() => handleLayoutSelect('Masonry')}
 						>
-							<img src='/api/placeholder/200/150' alt='Masonry Layout' className='mx-auto mb-4' />
+							<img
+								src={masonry}
+								alt='Masonry Layout'
+								className='mx-auto mb-4 w-[100%] h-[75%]'
+							/>
 							<span>Masonry</span>
 						</div>
 						<div
 							className='h-64 rounded-lg border-2 border-[#a8b5bd] text-black text-center flex flex-col justify-center py-2 hover:shadow-xl cursor-pointer'
 							onClick={() => handleLayoutSelect('Animated')}
 						>
-							<img src='/api/placeholder/200/150' alt='Animated Layout' className='mx-auto mb-4' />
+							<img
+								src={animated}
+								alt='Animated Layout'
+								className='mx-auto mb-4 w-[100%] h-[75%]'
+							/>
 							<span>Animated</span>
 						</div>
 						<div
 							className='h-64 rounded-lg border-2 border-[#a8b5bd] text-black text-center flex flex-col justify-center py-2 hover:shadow-xl cursor-pointer'
 							onClick={() => handleLayoutSelect('Slider')}
 						>
-							<img src='/api/placeholder/200/150' alt='Slider Layout' className='mx-auto mb-4' />
+							<img
+								src={fixed}
+								className='mx-auto mb-4 w-[100%] h-[75%]'
+								alt='Slider Layout'
+							/>
 							<span>Slider</span>
 						</div>
 					</div>
