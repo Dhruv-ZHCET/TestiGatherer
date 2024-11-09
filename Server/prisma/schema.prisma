@@ -17,7 +17,11 @@ model User{
   id       String   @id @default(uuid())
   firstName  String 
   email    String   @unique
-  password String 
+  password String? 
+  googleId      String?   @unique
+  authProvider  String    @default("local") 
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
   spaces   Space[]
 }
 
