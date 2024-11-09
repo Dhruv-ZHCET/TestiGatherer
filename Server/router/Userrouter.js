@@ -113,7 +113,7 @@ UserRouter.post("/google-signin", async (req, res) => {
     // Verify the Google token
     const ticket = await client.verifyIdToken({
       idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID, // Replace with your Google Client ID
+      audience: process.env.GOOGLE_CLIENT_ID,
     });
 
     const payload = ticket.getPayload();

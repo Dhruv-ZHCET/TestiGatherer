@@ -102,22 +102,26 @@ const Signin = () => {
                             </button> */}
                             <GoogleLogin
                                 onSuccess={(credentialResponse) => {
-                                    fetch("http://localhost:5000/google-signin", {
-                                        method: "POST",
-                                        headers: {
-                                            "Content-Type": "application/json",
-                                        },
-                                        body: JSON.stringify({ token: credentialResponse.credential }),
+                                    axios.post("http://localhost:3001/api/v1/user/google-signin", {
+                                        token: credentialResponse.credential
                                     })
-                                        .then(response => response.json())
-                                        .then((data) => {
-                                            console.log(data)
-                                            navigate("/dashboard")
+                                        .then((response) => {
+                                            if (response.data.token) {
+                                                localStorage.setItem("token", response.data.token);
+                                                toast.success("Successfully signed in with Google");
+                                                setTimeout(() => {
+                                                    navigate("/dashboard");
+                                                }, 1000);
+                                            }
                                         })
-                                        .catch(error => console.error(error));
+                                        .catch((error) => {
+                                            console.error("Google Sign-In failed:", error);
+                                            toast.error("Google sign-in failed. Please try again.");
+                                        });
                                 }}
                                 onError={() => {
                                     console.log("Login Failed");
+                                    toast.error("Google Sign-In failed.");
                                 }}
                             />
                         </div>
