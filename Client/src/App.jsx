@@ -5,7 +5,6 @@ import Signup from './components/Signup';
 import Signin from './components/Signin';
 import Landingpage from './components/Landingpage';
 import { ToastContainer } from 'react-toastify';
-import Spacecreation from './components/Spacecreation';
 import Thankyou from './components/Thankyou';
 import Dashboard from './components/Dashboard';
 import MergedSpaceCreation from './components/MergedSpaceCreation';
@@ -15,6 +14,7 @@ import TestimonialWall from './components/TestimonialWall';
 import WallOfLove_Masonary from './components/WallOfLove_Masonary';
 import WallOfLove_MasonaryAnimated from './components/WallOfLove_MasonaryaAnimated';
 import WallOfLove_Carousel from './components/WallOfLove_Carousel';
+import EditSpace from './components/Editspace';
 
 function App() {
 	return (
@@ -29,6 +29,7 @@ function App() {
 						<Route path='/space-creation' element={<MergedSpaceCreation />} />
 						<Route path='/dashboard' element={<Dashboard />} />
 						<Route path='/space/:spacename' element={<Space />} />
+						<Route path='/edit/:spaceName' element={<EditSpace></EditSpace>} />
 						<Route
 							path='/testimonial.to/:spacename'
 							element={<TestimonialsCollection />}

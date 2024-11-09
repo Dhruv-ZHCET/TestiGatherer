@@ -69,7 +69,9 @@ const WallOfLove_MasonryAnimated = () => {
                     }
                 });
                 const data = await response.json();
-                setTestimonials(data.testimonials);
+                // Filter testimonials to include only those that are liked
+                const likedTestimonials = data.testimonials.filter(testimonial => testimonial.liked);
+                setTestimonials(likedTestimonials);
             } catch (error) {
                 console.error('Error fetching testimonials:', error);
             }

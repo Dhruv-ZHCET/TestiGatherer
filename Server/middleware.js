@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import JWT_SECRET from "./config.js";
 
 const Authmiddlware = (req, res, next) => {
+  console.log("hi");
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {

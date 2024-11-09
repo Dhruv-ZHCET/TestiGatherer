@@ -60,10 +60,7 @@ const TestimonialCard = React.memo(({ testimonial, showHearts = false }) => {
                 </div>
             </div>
 
-            {/* Floating Hearts */}
-            {showHearts && (
-                <FloatingHeart />
-            )}
+            {showHearts && <FloatingHeart />}
         </div>
     );
 });
@@ -86,18 +83,22 @@ const WallOfLove_Masonary = () => {
                     },
                 });
                 const data = await response.json();
+                console.log(data);
+
+                // Filter testimonials to only include liked ones
+                const likedTestimonials = data.testimonials.filter(testimonial => testimonial.liked);
 
                 const savedOrder = localStorage.getItem(`testimonialOrder-${spacename}`);
                 const savedSortOrder = localStorage.getItem(`sortOrder-${spacename}`);
 
                 if (savedOrder) {
                     const orderMap = new Map(JSON.parse(savedOrder));
-                    const orderedTestimonials = [...data.testimonials].sort((a, b) => {
+                    const orderedTestimonials = [...likedTestimonials].sort((a, b) => {
                         return (orderMap.get(a.id) || 0) - (orderMap.get(b.id) || 0);
                     });
                     setTestimonials(orderedTestimonials);
                 } else {
-                    setTestimonials(data.testimonials);
+                    setTestimonials(likedTestimonials);
                 }
 
                 if (savedSortOrder) {

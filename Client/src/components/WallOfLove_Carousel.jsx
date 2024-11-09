@@ -79,7 +79,9 @@ const WallOfLove_Carousel = () => {
                     }
                 );
                 const data = await response.json();
-                setTestimonials(data.testimonials);
+                // Filter testimonials to only include liked ones
+                const likedTestimonials = data.testimonials.filter(testimonial => testimonial.liked);
+                setTestimonials(likedTestimonials);
             } catch (error) {
                 console.error('Error fetching testimonials:', error);
             }
@@ -87,6 +89,7 @@ const WallOfLove_Carousel = () => {
 
         fetchSpaceInfo();
     }, [spacename]);
+
 
     const nextSlide = () => {
         setCurrentSlide((prev) =>
