@@ -27,9 +27,17 @@ const WallOfLoveCustomization = ({ selectedLayout, onClose, showContent }) => {
 		}));
 	};
 
+	// Helper function to generate query string from settings
+	const generateQueryParams = () => {
+		return Object.entries(settings)
+			.filter(([key, value]) => value) // Only include checked settings
+			.map(([key]) => `${key.toLowerCase()}=true`)
+			.join('&');
+	};
+
 	const getEmbedCode = (layout) => {
-		const baseUrl = 'http://localhost:5173';
-		const theme = settings.darkTheme ? 'dark' : 'light';
+		const baseUrl = 'http://localhost:5173/walloflove';
+		const queryParams = generateQueryParams(); // Generate the query parameters
 
 		const layoutUrls = {
 			Masonry: `/masonary/${spacename}`,
@@ -37,7 +45,9 @@ const WallOfLoveCustomization = ({ selectedLayout, onClose, showContent }) => {
 			Slider: `/masonarycarousel/${spacename}`,
 		};
 
-		const url = `${baseUrl}${layoutUrls[layout]}`;
+		const url = `${baseUrl}${layoutUrls[layout]}${
+			queryParams ? `?${queryParams}` : ''
+		}`;
 		return `<iframe
     src="${url}"
     frameborder="0"
@@ -49,12 +59,15 @@ const WallOfLoveCustomization = ({ selectedLayout, onClose, showContent }) => {
 
 	const getPreviewUrl = () => {
 		const baseUrl = 'http://localhost:5173/walloflove';
+		const queryParams = generateQueryParams(); // Generate the query parameters
 		const layoutPaths = {
 			Masonry: 'masonary',
 			Animated: 'masonaryanimated',
 			Slider: 'masonarycarousel',
 		};
-		return `${baseUrl}/${layoutPaths[selectedLayout]}/${spacename}`;
+		return `${baseUrl}/${layoutPaths[selectedLayout]}/${spacename}${
+			queryParams ? `?${queryParams}` : ''
+		}`;
 	};
 
 	const embedCode = getEmbedCode(selectedLayout);
