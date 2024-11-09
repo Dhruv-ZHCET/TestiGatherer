@@ -4,60 +4,64 @@ import jwt from "jsonwebtoken";
 import JWT_SECRET from "../config.js";
 import Authmiddlware from "../middleware.js";
 import { PrismaClient } from "@prisma/client";
+import { OAuth2Client } from "google-auth-library";
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const prisma = new PrismaClient();
-
 const UserRouter = express.Router();
 
-const uservalidationschema = zod.object({
+const userValidationSchema = zod.object({
   email: zod.string().email(),
-  firstname: zod.string(),
-  password: zod.string(),
+  firstname: zod.string().min(1, "First name is required"),
+  password: zod.string().min(6, "Password must be at least 6 characters"),
 });
 
-const signinvalidationschema = zod.object({
+const signinValidationSchema = zod.object({
   email: zod.string().email(),
-  password: zod.string(),
+  password: zod.string().min(1, "Password is required"),
 });
 
 UserRouter.post("/signup", async (req, res) => {
-  try {
-    const { email, firstname, password } = req.body;
+  console.log("htt");
 
-    const validationResult = uservalidationschema.safeParse(req.body);
-    console.log(validationResult);
-    if (
-      !validationResult.success ||
-      email == "" ||
-      firstname == "" ||
-      password == ""
-    ) {
+  try {
+    const validationResult = userValidationSchema.safeParse(req.body);
+
+    if (!validationResult.success) {
       return res.status(400).json({ error: validationResult.error });
     }
+    console.log(validationResult.data);
+    const { email, firstname, password } = validationResult.data;
 
-    const UserResponse = await prisma.user.create({
+    // Check if user already exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (existingUser) {
+      return res.status(400).json({ error: "User already exists" });
+    }
+
+    const userResponse = await prisma.user.create({
       data: {
-        email: req.body.email,
-        firstName: req.body.firstname,
-        password: req.body.password,
+        email,
+        firstName: firstname,
+        password, // Note: You should hash the password before storing
+        authProvider: "local",
       },
     });
 
-    if (UserResponse) {
-      console.log(UserResponse);
-      const token = jwt.sign(
-        { email: UserResponse.email, firstname: UserResponse.firstName },
-        JWT_SECRET
-      );
+    const token = jwt.sign(
+      { email: userResponse.email, firstname: userResponse.firstName },
+      JWT_SECRET
+    );
 
-      res.status(200).json({
-        message: "User created successfully",
-        UserResponse,
-        token: token,
-      });
-    } else {
-      res.status(500).json({ error: "User creation failed" });
-    }
+    res.status(201).json({
+      message: "User created successfully",
+      user: userResponse,
+      token,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });
@@ -65,36 +69,95 @@ UserRouter.post("/signup", async (req, res) => {
 });
 
 UserRouter.post("/signin", async (req, res) => {
-  const validationResult = signinvalidationschema.safeParse(req.body);
-  const email = req.body.email;
-  const password = req.body.password;
-  if (!validationResult.success || email == "" || password == "") {
-    return res.status(400).json({ error: validationResult.error });
-  }
-
   try {
-    const FindUserdetail = await prisma.user.findUnique({
+    const validationResult = signinValidationSchema.safeParse(req.body);
+
+    if (!validationResult.success) {
+      return res.status(400).json({ error: validationResult.error });
+    }
+
+    const { email, password } = validationResult.data;
+
+    const user = await prisma.user.findUnique({
       where: {
-        email: email,
-        password: password,
+        email,
+        password, // Note: You should compare hashed passwords
+        authProvider: "local", // Check for local auth provider
       },
     });
-    console.log(FindUserdetail);
-    if (FindUserdetail) {
-      const token = jwt.sign(
-        { email: FindUserdetail.email, firstname: FindUserdetail.firstName },
+
+    if (!user) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    const token = jwt.sign(
+      { email: user.email, firstname: user.firstName },
+      JWT_SECRET
+    );
+
+    res.status(200).json({
+      message: "User logged in successfully",
+      user,
+      token,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+UserRouter.post("/google-signin", async (req, res) => {
+  try {
+    const { token } = req.body; // Receive the ID token from the client
+
+    // Verify the Google token
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID, // Replace with your Google Client ID
+    });
+
+    const payload = ticket.getPayload();
+    const { email, name } = payload;
+
+    // Check if the user exists in the database
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (existingUser) {
+      const jwtToken = jwt.sign(
+        { email: existingUser.email, firstname: existingUser.firstName },
         JWT_SECRET
       );
-      res.status(200).json({
+      return res.status(200).json({
         message: "User logged in successfully",
-        FindUserdetail,
-        token,
+        user: existingUser,
+        token: jwtToken,
       });
-    } else {
-      res.status(500).json({ error: "User not logged in successfully" });
     }
-  } catch (e) {
-    res.status(500).json({ error: "internal server error" });
+
+    // Create a new user if they don't exist
+    const newUser = await prisma.user.create({
+      data: {
+        email,
+        firstName: name,
+        authProvider: "google",
+      },
+    });
+
+    const jwtToken = jwt.sign(
+      { email: newUser.email, firstname: newUser.firstName },
+      JWT_SECRET
+    );
+
+    res.status(201).json({
+      message: "User created successfully",
+      user: newUser,
+      token: jwtToken,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
