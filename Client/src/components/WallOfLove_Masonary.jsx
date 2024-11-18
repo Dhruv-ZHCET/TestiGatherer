@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Star } from 'lucide-react';
 import { useParams, useSearchParams } from 'react-router-dom';
+import { BACKEND_URL } from '../utils/DB';
 
 const FloatingHeart = () => (
 	<div
@@ -23,14 +24,12 @@ const TestimonialCard = React.memo(
 	}) => {
 		return (
 			<div
-				className={`break-inside-avoid mb-4 relative overflow-hidden ${
-					isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'
-				}`}
+				className={`break-inside-avoid mb-4 relative overflow-hidden ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'
+					}`}
 			>
 				<div
-					className={`rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 h-fit ${
-						isDarkMode ? 'bg-gray-800' : 'bg-white'
-					}`}
+					className={`rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 h-fit ${isDarkMode ? 'bg-gray-800' : 'bg-white'
+						}`}
 				>
 					<div className='p-4'>
 						<div className='flex items-center gap-3 mb-4'>
@@ -41,9 +40,8 @@ const TestimonialCard = React.memo(
 							/>
 							<div>
 								<h3
-									className={`font-semibold ${
-										isDarkMode ? 'text-white' : 'text-gray-800'
-									}`}
+									className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-800'
+										}`}
 								>
 									{testimonial.name}
 								</h3>
@@ -51,11 +49,10 @@ const TestimonialCard = React.memo(
 									{[...Array(testimonial.Rating)].map((_, i) => (
 										<Star
 											key={i}
-											className={`w-4 h-4 ${
-												isDarkMode
-													? 'text-yellow-400 fill-current'
-													: 'text-yellow-400'
-											}`}
+											className={`w-4 h-4 ${isDarkMode
+												? 'text-yellow-400 fill-current'
+												: 'text-yellow-400'
+												}`}
 											fill={isDarkMode ? 'currentColor' : 'none'}
 										/>
 									))}
@@ -72,18 +69,16 @@ const TestimonialCard = React.memo(
 						)}
 
 						<p
-							className={`text-sm leading-relaxed mb-3 ${
-								isDarkMode ? 'text-gray-300' : 'text-gray-600'
-							}`}
+							className={`text-sm leading-relaxed mb-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'
+								}`}
 						>
 							{testimonial.Content}
 						</p>
 
 						{showDate && (
 							<div
-								className={`text-xs border-t pt-2 ${
-									isDarkMode ? 'text-gray-400 border-gray-600' : 'text-gray-500'
-								}`}
+								className={`text-xs border-t pt-2 ${isDarkMode ? 'text-gray-400 border-gray-600' : 'text-gray-500'
+									}`}
 							>
 								{new Date(testimonial.submittedAt).toLocaleDateString('en-US', {
 									year: 'numeric',
@@ -118,7 +113,7 @@ const WallOfLove_Masonary = () => {
 		const fetchSpaceInfo = async () => {
 			try {
 				const response = await fetch(
-					`http://localhost:3001/api/v1/fetchtestimonials?spacename=${spacename}`,
+					`${BACKEND_URL}/api/v1/fetchtestimonials?spacename=${spacename}`,
 					{
 						headers: {
 							Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -174,9 +169,8 @@ const WallOfLove_Masonary = () => {
 
 	return (
 		<div
-			className={`min-h-screen w-screen p-4 ${
-				isDarkMode ? 'bg-gray-900' : 'bg-gray-100'
-			}`}
+			className={`min-h-screen w-screen p-4 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'
+				}`}
 		>
 			<div className='columns-1 sm:columns-2 lg:columns-3 gap-4'>
 				{testimonials.map((testimonial, index) => (

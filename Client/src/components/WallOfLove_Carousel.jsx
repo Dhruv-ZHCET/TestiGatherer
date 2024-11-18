@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useParams, useSearchParams } from 'react-router-dom';
+import { BACKEND_URL } from '../utils/DB';
 
 // Testimonial Card Component with Heart Animation
 const TestimonialCard = React.memo(
 	({ testimonial, isDarkMode, showDate, showHearts }) => {
 		return (
 			<div
-				className={`w-full px-4 mb-4 p-4 rounded-lg shadow-md relative ${
-					isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'
-				} animate-card-float`} // Apply the animation here
+				className={`w-full px-4 mb-4 p-4 rounded-lg shadow-md relative ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'
+					} animate-card-float`} // Apply the animation here
 			>
 				<div className='flex items-center gap-3 mb-4'>
 					<img
@@ -19,9 +19,8 @@ const TestimonialCard = React.memo(
 					/>
 					<div>
 						<h3
-							className={`font-semibold ${
-								isDarkMode ? 'text-white' : 'text-gray-800'
-							}`}
+							className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-800'
+								}`}
 						>
 							{testimonial.name}
 						</h3>
@@ -50,9 +49,8 @@ const TestimonialCard = React.memo(
 
 				{showDate && (
 					<div
-						className={`text-xs text-gray-500 border-t pt-2 ${
-							isDarkMode ? 'border-gray-600' : 'border-gray-300'
-						}`}
+						className={`text-xs text-gray-500 border-t pt-2 ${isDarkMode ? 'border-gray-600' : 'border-gray-300'
+							}`}
 					>
 						{new Date(testimonial.submittedAt).toLocaleDateString('en-US', {
 							year: 'numeric',
@@ -97,7 +95,7 @@ const WallOfLove_Carousel = () => {
 		const fetchSpaceInfo = async () => {
 			try {
 				const response = await fetch(
-					`http://localhost:3001/api/v1/fetchtestimonials?spacename=${spacename}`,
+					`${BACKEND_URL}/api/v1/fetchtestimonials?spacename=${spacename}`,
 					{
 						headers: {
 							Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -142,9 +140,8 @@ const WallOfLove_Carousel = () => {
 
 	return (
 		<div
-			className={`min-h-screen w-full p-4 ${
-				isDarkMode ? 'bg-gray-900' : 'bg-gray-100'
-			}`}
+			className={`min-h-screen w-full p-4 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'
+				}`}
 		>
 			<div className='relative max-w-6xl mx-auto'>
 				{/* Carousel Container */}
@@ -201,9 +198,8 @@ const WallOfLove_Carousel = () => {
 						<button
 							key={index}
 							onClick={() => setCurrentSlide(index)}
-							className={`w-2 h-2 rounded-full transition-colors duration-200 ${
-								currentSlide === index ? 'bg-gray-800' : 'bg-gray-300'
-							}`}
+							className={`w-2 h-2 rounded-full transition-colors duration-200 ${currentSlide === index ? 'bg-gray-800' : 'bg-gray-300'
+								}`}
 						/>
 					))}
 				</div>

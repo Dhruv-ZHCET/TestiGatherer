@@ -45,15 +45,14 @@ const WallOfLoveCustomization = ({ selectedLayout, onClose, showContent }) => {
 			Slider: `/masonarycarousel/${spacename}`,
 		};
 
-		const url = `${baseUrl}${layoutUrls[layout]}${
-			queryParams ? `?${queryParams}` : ''
-		}`;
+		const url = `${baseUrl}${layoutUrls[layout]}${queryParams ? `?${queryParams}` : ''
+			}`;
 		return `<iframe
     src="${url}"
     frameborder="0"
     scrolling="yes"
     width="100%"
-    height="800px">
+    height="200px">
 </iframe>`;
 	};
 
@@ -65,9 +64,8 @@ const WallOfLoveCustomization = ({ selectedLayout, onClose, showContent }) => {
 			Animated: 'masonaryanimated',
 			Slider: 'masonarycarousel',
 		};
-		return `${baseUrl}/${layoutPaths[selectedLayout]}/${spacename}${
-			queryParams ? `?${queryParams}` : ''
-		}`;
+		return `${baseUrl}/${layoutPaths[selectedLayout]}/${spacename}${queryParams ? `?${queryParams}` : ''
+			}`;
 	};
 
 	const embedCode = getEmbedCode(selectedLayout);
@@ -131,17 +129,15 @@ const WallOfLoveCustomization = ({ selectedLayout, onClose, showContent }) => {
 				{/* Toggle Buttons */}
 				<div className='flex gap-2 mb-6'>
 					<button
-						className={`px-4 py-2 rounded-md border-2 border-[#a8b5bd] transition ${
-							showBasic ? 'bg-[#ebf1f5]' : 'hover:bg-gray-50'
-						}`}
+						className={`px-4 py-2 rounded-md border-2 border-[#a8b5bd] transition ${showBasic ? 'bg-[#ebf1f5]' : 'hover:bg-gray-50'
+							}`}
 						onClick={() => setShowBasic(true)}
 					>
 						Basic
 					</button>
 					<button
-						className={`px-4 py-2 rounded-md border-2 border-[#a8b5bd] transition ${
-							!showBasic ? 'bg-[#ebf1f5]' : 'hover:bg-gray-50'
-						}`}
+						className={`px-4 py-2 rounded-md border-2 border-[#a8b5bd] transition ${!showBasic ? 'bg-[#ebf1f5]' : 'hover:bg-gray-50'
+							}`}
 						onClick={() => setShowBasic(false)}
 					>
 						More customization

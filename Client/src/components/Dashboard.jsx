@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PlusIcon, Settings, X } from 'lucide-react'; // Import X icon for close button
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import { BACKEND_URL } from '../utils/DB';
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -11,7 +12,7 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchSpaces = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/api/v1/space-fetch', {
+                const response = await axios.get(`${BACKEND_URL}/api/v1/space-fetch`, {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("token")
                     }

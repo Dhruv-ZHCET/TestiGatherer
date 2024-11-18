@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Star } from 'lucide-react';
 import { useParams, useSearchParams } from 'react-router-dom';
+import { BACKEND_URL } from '../utils/DB';
 
 const FloatingHeart = () => (
 	<div
@@ -18,9 +19,8 @@ const TestimonialCard = React.memo(
 	({ testimonial, isDarkMode, showDate, showHearts }) => {
 		return (
 			<div
-				className={`relative break-inside-avoid mb-4 p-4 rounded-lg shadow-md opacity-0 animate-fadeIn ${
-					isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'
-				}`}
+				className={`relative break-inside-avoid mb-4 p-4 rounded-lg shadow-md opacity-0 animate-fadeIn ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'
+					}`}
 			>
 				<div className='flex items-center gap-3 mb-4'>
 					<img
@@ -30,9 +30,8 @@ const TestimonialCard = React.memo(
 					/>
 					<div>
 						<h3
-							className={`font-semibold ${
-								isDarkMode ? 'text-white' : 'text-gray-800'
-							}`}
+							className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-800'
+								}`}
 						>
 							{testimonial.name}
 						</h3>
@@ -40,12 +39,11 @@ const TestimonialCard = React.memo(
 							{[...Array(testimonial.Rating)].map((_, i) => (
 								<Star
 									key={i}
-									className={`w-4 h-4 ${
-										isDarkMode
-											? 'text-yellow-400 fill-current'
-											: 'text-yellow-400 fill-current'
-									}`}
-									fill='currentColor' // Ensures the star is filled
+									className={`w-4 h-4 ${isDarkMode
+										? 'text-yellow-400 fill-current'
+										: 'text-yellow-400 fill-current'
+										}`}
+									fill='currentColor'
 								/>
 							))}
 						</div>
@@ -63,18 +61,16 @@ const TestimonialCard = React.memo(
 				)}
 
 				<p
-					className={`text-sm leading-relaxed mb-3 ${
-						isDarkMode ? 'text-gray-300' : 'text-gray-600'
-					}`}
+					className={`text-sm leading-relaxed mb-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'
+						}`}
 				>
 					{testimonial.Content}
 				</p>
 
 				{showDate && (
 					<div
-						className={`text-xs border-t pt-2 ${
-							isDarkMode ? 'text-gray-400 border-gray-600' : 'text-gray-500'
-						}`}
+						className={`text-xs border-t pt-2 ${isDarkMode ? 'text-gray-400 border-gray-600' : 'text-gray-500'
+							}`}
 					>
 						{new Date(testimonial.submittedAt).toLocaleDateString('en-US', {
 							year: 'numeric',
@@ -92,7 +88,6 @@ const TestimonialCard = React.memo(
 
 TestimonialCard.displayName = 'TestimonialCard';
 
-
 const WallOfLove_MasonryAnimated = () => {
 	const [testimonials, setTestimonials] = useState([]);
 	const [isScrolling, setIsScrolling] = useState(true);
@@ -108,7 +103,7 @@ const WallOfLove_MasonryAnimated = () => {
 		const fetchSpaceInfo = async () => {
 			try {
 				const response = await fetch(
-					`http://localhost:3001/api/v1/fetchtestimonials?spacename=${spacename}`,
+					`${BACKEND_URL}/api/v1/fetchtestimonials?spacename=${spacename}`,
 					{
 						headers: {
 							Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -116,7 +111,6 @@ const WallOfLove_MasonryAnimated = () => {
 					}
 				);
 				const data = await response.json();
-				// Filter testimonials to include only those that are liked
 				const likedTestimonials = data.testimonials.filter(
 					(testimonial) => testimonial.liked
 				);
@@ -137,15 +131,20 @@ const WallOfLove_MasonryAnimated = () => {
 
 			const container = containerRef.current;
 			const scrollBottom = container.scrollTop + container.clientHeight;
+			const scrollThreshold = container.scrollHeight - 10; // Add small threshold
 
-			if (Math.ceil(scrollBottom) >= container.scrollHeight) {
+			if (Math.ceil(scrollBottom) >= scrollThreshold) {
 				setIsScrolling(false);
 
+				// Reset after 1 second (1000ms)
 				timeoutId = setTimeout(() => {
 					container.scrollTop = 0;
 					setResetKey((prev) => prev + 1);
-					setIsScrolling(true);
-				}, 2000);
+					// Small delay before restarting scroll to ensure smooth transition
+					setTimeout(() => {
+						setIsScrolling(true);
+					}, 100);
+				}, 1000);
 			}
 		};
 
@@ -184,9 +183,8 @@ const WallOfLove_MasonryAnimated = () => {
 	return (
 		<div
 			ref={containerRef}
-			className={`fixed inset-0 overflow-hidden p-4 ${
-				isDarkMode ? 'bg-gray-900' : 'bg-gray-100'
-			}`}
+			className={`fixed inset-0 overflow-hidden p-4 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'
+				}`}
 		>
 			<div className='masonry-container columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4'>
 				{testimonials.map((testimonial, index) => (

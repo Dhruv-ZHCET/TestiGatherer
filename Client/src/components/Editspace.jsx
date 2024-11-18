@@ -4,9 +4,6 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useThankYouContext } from '../context/context';
 import thankyouImg from '../assets/thankyou.gif';
-
-
-// Import necessary assets
 import record from '../assets/record.png';
 import pencil from '../assets/pencil.png';
 import heart from '../assets/heart.jpg';
@@ -15,6 +12,7 @@ import extras from '../assets/extras.png';
 import dropdown from '../assets/dropdown.jpg';
 import threedots from '../assets/threedots.webp';
 import dump from '../assets/dump.jpg';
+import { BACKEND_URL } from '../utils/DB';
 
 const handleFileUpload = async (e, setImageUrl) => {
     const image = e.target.files[0];
@@ -36,94 +34,123 @@ const handleFileUpload = async (e, setImageUrl) => {
         setImageUrl(uploadImageURL.url);
     } catch (error) {
         console.error('Error uploading image:', error);
+        toast.error('Error uploading image');
     }
 };
 
 function EditSpace() {
     const navigate = useNavigate();
-    const { spaceName } = useParams(); // Assuming you are passing the space ID in the URL
+    const { spaceName } = useParams();
     const {
-        // Context values to pre-fill the form
-        imagePreview, setImagePreview,
-        thankyouTitle, setThankyouTitle,
-        thankyouMessage, setThankyouMessage,
-        hideImage, setHideImage,
-        redirect_url, setredirect_url,
-        header, setHeader,
-        imageUrl, setImageUrl,
-        spacename, setspacename,
-        customMessage, setCustomMessage,
-        questions, setQuestions
+        setImagePreview,
+        setThankyouTitle,
+        setThankyouMessage,
+        setHideImage,
+        setredirect_url,
+        setHeader,
+        setImageUrl,
+        setspacename,
+        setCustomMessage,
+        setQuestions
     } = useThankYouContext();
 
     const [headerError, setHeaderError] = useState(false);
     const [activeTab, setActiveTab] = useState('basic');
     const [isLoading, setIsLoading] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [basicFormData, setBasicFormData] = useState({
         spacename: '',
         imageUrl: '',
         header: '',
         customMessage: '',
-        questions: []
+        questions: [] // Simple array of strings
     });
 
     const [thankYouFormData, setThankYouFormData] = useState({
-        imagePreview: '',
+        imagePreview: thankyouImg,
         thankyouTitle: '',
         thankyouMessage: '',
         hideImage: false,
         redirect_url: ''
     });
 
-    // Fetch existing data for the space
     useEffect(() => {
+        let mounted = true;
+        const token = localStorage.getItem('token');
+
         const fetchSpaceData = async () => {
+            if (!token) {
+                navigate('/login', { replace: true });
+                return;
+            }
+
             try {
                 const response = await axios.get(
-                    'http://localhost:3001/api/v1/spaceinfo/edit',
+                    `${BACKEND_URL}/api/v1/spaceinfo/edit`,
                     {
-                        params: { spaceName: spaceName },
+                        params: { spaceName },
                         headers: {
-                            Authorization: 'Bearer ' + localStorage.getItem('token'),
+                            Authorization: `Bearer ${token}`,
                         },
                     }
                 );
-                console.log(response.data)
+
+                if (!mounted) return;
+
                 const spaceData = response.data.spaceinfo;
+                if (!spaceData) {
+                    toast.error("Space not found");
+                    navigate('/dashboard', { replace: true });
+                    return;
+                }
+
+                // Transform questions to simple strings
+                const formattedQuestions = spaceData.questions.map(q =>
+                    typeof q === 'object' ? q.question : q
+                );
 
                 setBasicFormData({
-                    spacename: spaceData.space_name,
-                    imageUrl: spaceData.logo,
-                    header: spaceData.header,
-                    customMessage: spaceData.customMessage,
-                    questions: spaceData.questions
+                    spacename: spaceData.space_name || '',
+                    imageUrl: spaceData.logo || '',
+                    header: spaceData.header || '',
+                    customMessage: spaceData.customMessage || '',
+                    questions: formattedQuestions || []
                 });
 
                 setThankYouFormData({
-                    imagePreview: spaceData.thankyou_img_url,
-                    thankyouTitle: spaceData.thankyou_title,
-                    thankyouMessage: spaceData.thankyou_msg,
-                    hideImage: spaceData.hide_gif,
-                    redirect_url: spaceData.redirectPageUrl
-
+                    imagePreview: spaceData.thankyou_img_url || thankyouImg,
+                    thankyouTitle: spaceData.thankyou_title || '',
+                    thankyouMessage: spaceData.thankyou_msg || '',
+                    hideImage: spaceData.hide_gif || false,
+                    redirect_url: spaceData.redirectPageUrl || ''
                 });
             } catch (error) {
-                toast.error("Error fetching space data");
+                if (!mounted) return;
                 console.error("Error fetching space data:", error);
+                toast.error("Error fetching space data");
+                navigate('/dashboard', { replace: true });
             }
         };
 
-        fetchSpaceData();
-    }, [spaceName]);
+        if (spaceName) {
+            fetchSpaceData();
+        }
+
+        return () => {
+            mounted = false;
+        };
+    }, [spaceName, navigate]);
 
     const handleQuestionChange = (index, newValue) => {
         const newQuestions = [...basicFormData.questions];
         newQuestions[index] = newValue;
         setBasicFormData(prev => ({ ...prev, questions: newQuestions }));
     };
+    { console.log(basicFormData.questions) }
 
-    const handleDeleteQuestion = (index) => {
+    const handleDeleteQuestion = (index, e) => {
+        e.preventDefault();
         const newQuestions = basicFormData.questions.filter((_, qIndex) => qIndex !== index);
         setBasicFormData(prev => ({ ...prev, questions: newQuestions }));
     };
@@ -138,41 +165,63 @@ function EditSpace() {
         }
     };
 
-    const handleRemoveImage = () => {
+    const handleRemoveImage = (e) => {
+        e.preventDefault();
         setBasicFormData(prev => ({ ...prev, imageUrl: '' }));
     };
 
     const handleUpdateSpace = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
+        if (isSubmitting) return;
+
         const token = localStorage.getItem('token');
+        if (!token) {
+            toast.error("Please login first");
+            navigate('/login', { replace: true });
+            return;
+        }
+
+        setIsSubmitting(true);
+        setIsLoading(true);
 
         try {
+            const payload = {
+                spacename: basicFormData.spacename,
+                imageUrl: basicFormData.imageUrl,
+                header: basicFormData.header,
+                customMessage: basicFormData.customMessage,
+                questions: basicFormData.questions,
+                hideImage: thankYouFormData.hideImage,
+                redirect_url: thankYouFormData.redirect_url,
+                imagePreview: thankYouFormData.imagePreview,
+                thankyouTitle: thankYouFormData.thankyouTitle,
+                thankyouMessage: thankYouFormData.thankyouMessage
+            };
+
             const updateResponse = await axios.put(
-                `http://localhost:3001/api/v1/space/${spaceName}`,
+                `http://localhost:3001/api/v1/edit`,
+                payload,
                 {
-                    ...basicFormData,
-                    ...thankYouFormData
-                },
-                {
+                    params: { spaceName },
                     headers: {
                         'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
                     },
                 }
             );
 
             if (updateResponse.data.message) {
                 toast.success(updateResponse.data.message);
+                // Wait for toast to be visible before navigation
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                navigate('/dashboard', { replace: true });
             }
-            console.log(updateResponse.data);
         } catch (error) {
-            toast.error("Error updating space");
             console.error("Error updating space:", error);
+            toast.error(error.response?.data?.error || "Error updating space");
         } finally {
-            setTimeout(() => {
-                setIsLoading(false);
-            }, 3000);
-            navigate("/dashboard");
+            setIsLoading(false);
+            setIsSubmitting(false);
         }
     };
 
@@ -217,8 +266,10 @@ function EditSpace() {
                             QUESTIONS
                         </span>
                         <ul className='list-disc font-bold text-gray-700 text-[1rem] my-4 text-left pl-6'>
+
                             {basicFormData.questions.map((question, index) => (
-                                <li key={index}>{question.question}</li>
+                                // { console.log(question) }
+                                <li key={index}>   {question}</li>
                             ))}
                         </ul>
                     </fieldset>
@@ -387,7 +438,7 @@ function EditSpace() {
                                             <input
                                                 className='w-4/5 p-2 text-base border-2 rounded-md'
                                                 type='text' id={`question-${index}`}
-                                                value={question.question}
+                                                value={question}
                                                 onChange={(e) =>
                                                     handleQuestionChange(index, e.target.value)
                                                 }
@@ -492,8 +543,7 @@ function EditSpace() {
                 </form>
             </div>
             <Toaster />
-        </section>
+        </section >
     );
 }
-
 export default EditSpace;

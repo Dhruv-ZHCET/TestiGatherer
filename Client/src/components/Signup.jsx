@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import toast, { Toaster } from "react-hot-toast"
+import { BACKEND_URL } from '../utils/DB';
 
 
 const Signup = () => {
@@ -18,7 +19,7 @@ const Signup = () => {
 
         try {
             const UserResponse = await axios.post(
-                'http://localhost:3001/api/v1/user/signup',
+                `${BACKEND_URL}/api/v1/user/signup`,
                 Userdetail
             );
 

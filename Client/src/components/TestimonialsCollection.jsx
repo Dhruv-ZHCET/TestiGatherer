@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import pencil from '../assets/pencil.png';
 import record from '../assets/record.png';
 import toast, { Toaster } from 'react-hot-toast';
+import { BACKEND_URL } from '../utils/DB';
 
 const TestimonialsCollection = () => {
     const navigate = useNavigate()
@@ -41,7 +42,7 @@ const TestimonialsCollection = () => {
         console.log(rating)
 
         try {
-            const response = await axios.post('http://localhost:3001/api/v1/sendtestimonials',
+            const response = await axios.post(`${BACKEND_URL}/api/v1/sendtestimonials`,
                 {
                     testimonial, // Passed in the request body
                     rating,
@@ -69,7 +70,7 @@ const TestimonialsCollection = () => {
     useEffect(() => {
         const fetchSpaceInfo = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/api/v1/spaceinfo', {
+                const response = await axios.get(`${BACKEND_URL}/api/v1/spaceinfo`, {
                     params: { spacename },
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("token")

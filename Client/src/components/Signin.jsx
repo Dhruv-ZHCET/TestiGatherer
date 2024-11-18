@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from "react-hot-toast";
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { BACKEND_URL } from '../utils/DB';
 
 
 const Signin = () => {
@@ -33,7 +34,7 @@ const Signin = () => {
 
         try {
             const response = await axios.post(
-                "http://localhost:3001/api/v1/user/signin",
+                `${BACKEND_URL}/api/v1/user/signin`,
                 userDetail
             );
 
@@ -61,7 +62,7 @@ const Signin = () => {
 
             // Send email and name to the server
             const response = await axios.post(
-                'http://localhost:3001/api/v1/user/google-signin',
+                `${BACKEND_URL}/api/v1/user/google-signin`,
                 { email, name }
             );
 
@@ -102,7 +103,7 @@ const Signin = () => {
                             </button> */}
                             <GoogleLogin
                                 onSuccess={(credentialResponse) => {
-                                    axios.post("http://localhost:3001/api/v1/user/google-signin", {
+                                    axios.post(`${BACKEND_URL}/api/v1/user/google-signin`, {
                                         token: credentialResponse.credential
                                     })
                                         .then((response) => {

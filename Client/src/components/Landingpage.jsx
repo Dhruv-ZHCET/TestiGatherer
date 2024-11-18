@@ -3,52 +3,61 @@ import Navbar from './Navbar';
 
 const Landingpage = () => {
 	return (
-		<div className='flex-grow flex justify-center items-center p-4 mt-20'>
-			{' '}
-			{/* Adjusted spacing for navbar */}
-			<div className='w-full max-w-4xl h-[calc(100vh-4rem)]'>
-				<h1 className='text-white md:text-6xl text-5xl font-bold text-center'>
-					Get Testimonials from your <br /> customers with ease
-				</h1>
-				<p className='text-gray-400 text-center py-3 md:text-xl text-2xl font-semibold'>
-					Collecting testimonials is hard, we get it. So we built Testimonial,
-					in minutes, you can collect text and video testimonials from your
-					customers with no need for a developer or website hosting
-				</p>
-				<div className='container mx-auto px-4 py-4'>
-					<div className='flex justify-center gap-8'>
-						<button className='bg-blue-500 hover:bg-blue-700 text-white py-3 px-6 rounded'>
+		<div className="min-h-screen bg-[#020817] text-white">
+			<div className="container mx-auto px-4 pt-20 pb-12">
+				{/* Hero Section */}
+				<div className="max-w-5xl mx-auto text-center">
+					<h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+						Get Testimonials from your<br />customers with ease
+					</h1>
+					<p className="text-lg md:text-xl text-gray-400 mb-8 max-w-4xl mx-auto">
+						Collecting testimonials is hard, we get it. So we built Testimonial, in minutes, you can collect text
+						and video testimonials from your customers with no need for a developer or website hosting
+					</p>
+
+					{/* CTA Buttons */}
+					<div className="flex justify-center gap-4 mb-6">
+						<button className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-md font-medium">
 							Try FREE now
 						</button>
-						<button className='border border-blue-500 text-white py-3 px-6 rounded focus:outline-none focus:shadow-outline'>
+						<button className="border border-blue-500 text-white px-8 py-3 rounded-md font-medium hover:bg-blue-500/10">
 							Talk to us
 						</button>
 					</div>
-					<p className='text-center mt-4 text-gray-400'>
+
+					{/* Pricing Link */}
+					<p className="text-gray-400 mb-16">
 						Get started with free credits on us.{' '}
-						<a href='#' className='underline text-blue-500'>
+						<a href="#pricing" className="text-blue-500 hover:underline">
 							See our pricing
 						</a>{' '}
 						→
 					</p>
-					<div className='my-4 w-full h-[1px] border-t-2 border-gray-400' />
-					<h1 className='text-white md:text-6xl text-5xl font-bold text-center'>
-						Add testimonials to your website with no coding!
-					</h1>
-					<p className='text-gray-400 text-center py-3 md:text-xl text-2xl font-semibold'>
-						Copy and paste our HTML code to add the Wall Of Love (👉 full
-						version) to your website. We support any no-code platform (Webflow,
-						WordPress, you name it!)
-					</p>
 				</div>
 
-				{/* <iframe
-						src='http://localhost:5173/walloflove/masonarycarousel/welcome?darktheme=true&hidedate=true&showheartanimation=true&pauseonhover=true'
-						frameborder='0'
-						scrolling='yes'
-						width='100%'
-						height='800px'
-					></iframe> */}
+				{/* Divider */}
+				<div className="max-w-4xl mx-auto border-t border-gray-800 my-16"></div>
+
+				{/* Second Section */}
+				<div className="max-w-5xl mx-auto text-center">
+					<h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+						Add testimonials to your<br />website with no coding!
+					</h2>
+					<p className="text-lg md:text-xl text-gray-400 mb-12 max-w-4xl mx-auto">
+						Copy and paste our HTML code to add the Wall Of Love (👉 full version) to your website. We
+						support any no-code platform (Webflow, WordPress, you name it!)
+					</p>
+
+					{/* Testimonials Wall Preview */}
+					<div className="w-full  rounded-lg overflow-hidden shadow-2xl">
+						<iframe
+							src="http://localhost:5173/walloflove/masonaryanimated/dsadawdasds?darktheme=true&hidedate=true&showheartanimation=true&pauseonhover=true"
+							className="w-full h-[575px]"
+							frameBorder="0"
+							title="Wall of Love Preview"
+						/>
+					</div>
+				</div>
 			</div>
 		</div>
 	);

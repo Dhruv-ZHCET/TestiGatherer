@@ -15,6 +15,7 @@ import threedots from '../assets/threedots.webp';
 import dump from '../assets/dump.jpg';
 import addbutton from '../assets/addbutton.jpg';
 import sidearrow from '../assets/sidearrow.png';
+import { BACKEND_URL } from '../utils/DB';
 
 const handleFileUpload = async (e, setImageUrl) => {
     const image = e.target.files[0];
@@ -125,7 +126,7 @@ function MergedSpaceCreation() {
 
         try {
             const SpaceCreationResponse = await axios.post(
-                "http://localhost:3001/api/v1/space-creation",
+                `${BACKEND_URL}/api/v1/space-creation`,
                 {
                     ...basicFormData,
                     ...thankYouFormData

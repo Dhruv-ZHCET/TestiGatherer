@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Star } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { useParams } from 'react-router-dom';
+import Masonry from 'react-masonry-css';
 import axios from 'axios';
+import { BACKEND_URL } from '../utils/DB';
 
 // Helper function moved outside components
 const formatDate = (dateString) => {
@@ -19,8 +21,8 @@ const formatDate = (dateString) => {
 // TestimonialCard Component with display name
 const TestimonialCard = React.memo(({ testimonial, isDragging }) => {
     return (
-        <div className={`bg-white rounded-xl shadow-lg p-6 ${isDragging ? 'shadow-2xl' : ''}`}>
-            <div className="flex items-center gap-4 mb-6">
+        <div className={`bg-white rounded-xl shadow-lg p-6 mb-6 ${isDragging ? 'shadow-2xl' : ''}`}>
+            <div className="flex items-center gap-4 mb-4">
                 <div className="flex-shrink-0">
                     <img
                         className="w-12 h-12 rounded-full object-cover border-2 border-gray-100 shadow-md"
@@ -71,17 +73,35 @@ const TestimonialWall = () => {
     const [sortOrder, setSortOrder] = useState('newest');
     const { spacename } = useParams();
 
-    // Load testimonials with saved order
+    // Masonry breakpoints
+    const breakpointColumnsObj = {
+        default: 3,
+        1100: 2,
+        700: 1
+    };
+
+    // Custom styles for masonry grid
+    const masonryStyles = {
+        '.my-masonry-grid': {
+            display: 'flex',
+            marginLeft: '-30px', /* gutter size offset */
+            width: 'auto'
+        },
+        '.my-masonry-grid_column': {
+            paddingLeft: '30px', /* gutter size */
+            backgroundClip: 'padding-box'
+        }
+    };
+
     useEffect(() => {
         const fetchSpaceInfo = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/api/v1/fetchtestimonials', {
+                const response = await axios.get(`${BACKEND_URL}/api/v1/fetchtestimonials`, {
                     params: { spacename },
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("token")
                     }
                 });
-                console.log(response)
 
                 const savedOrder = localStorage.getItem(`testimonialOrder-${spacename}`);
                 const savedSortOrder = localStorage.getItem(`sortOrder-${spacename}`);
@@ -107,7 +127,6 @@ const TestimonialWall = () => {
         fetchSpaceInfo();
     }, [spacename]);
 
-    // Save order whenever testimonials change
     useEffect(() => {
         if (testimonials.length > 0) {
             const order = testimonials.map((testimonial, index) => [testimonial.id, index]);
@@ -162,17 +181,35 @@ const TestimonialWall = () => {
                         Build your own wall? It's free 👉
                     </p>
                 </div>
-
-
             </div>
 
-            {/* Testimonials Grid */}
+            {/* Testimonials Masonry Grid */}
             <div className="max-w-7xl mx-auto px-6 py-16">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <style>
+                    {`
+                        .my-masonry-grid {
+                            display: flex;
+                            margin-left: -30px;
+                            width: auto;
+                        }
+                        .my-masonry-grid_column {
+                            padding-left: 30px;
+                            background-clip: padding-box;
+                        }
+                    `}
+                </style>
+                <Masonry
+                    breakpointCols={breakpointColumnsObj}
+                    className="my-masonry-grid"
+                    columnClassName="my-masonry-grid_column"
+                >
                     {testimonials.map((testimonial, index) => (
-                        <TestimonialCard key={testimonial.id || index} testimonial={testimonial} />
+                        <TestimonialCard
+                            key={testimonial.id || index}
+                            testimonial={testimonial}
+                        />
                     ))}
-                </div>
+                </Masonry>
             </div>
 
             {/* Reorder Modal */}
